@@ -1,0 +1,41 @@
+CALL Modules\Excel
+CONST MARK_CHARS = "◇◆■"
+DIM excel
+IF Excel.GETEXCEL() = NULL THEN
+  MSGBOX("Excelを起動してください")
+  EXIT
+ENDIF
+ws = Excel.CHOICESHEET(Excel.CHOICEFILE())
+PUBLIC prevday
+// TODO: ヘッダ文字列の解析
+// MSGBOX(ws.pageSetup.centerHeader)
+Excel.EACHROWS(ws.cells(1,1).currentRegion, "scanrows", TRUE)
+
+FUNCTION scanrows(row, no)
+  RESULT = TRUE
+  IF row.cells(5).value = "定休日" THEN
+    EXIT
+  ENDIF
+  // 変数抜出し
+  DIM day = row.cells(1).value
+  DIM week = row.cells(2).value
+  DIM time = row.cells(3).value
+  DIM mark
+  DIM name = row.cells(4).value
+  DIM content = row.cells(5).value
+  // 値の設定
+  mark = COPY(name, 1, 1)
+  IF POS(MARK_CHARS, mark) > 0 THEN
+    name = COPY(name, 2) 
+  ELSE
+    mark = ""
+  ENDIF
+  IF day = "" THEN
+    day = prevday
+  ELSE
+    prevday = day
+  ENDIF
+  // TODO: 開始時刻と終了時刻を分割する
+  // TODO: 終了時刻未定のイベントに配慮する
+//  MSGBOX(day + "日<#CR>" + time + "<#CR>" + mark + name + "<#CR>" + content)
+FEND
