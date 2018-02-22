@@ -1,0 +1,38 @@
+MODULE RegExp
+
+  FUNCTION GETOBJECT(pattern = "")
+    DIM rexp = CREATEOLEOBJ("VBScript.RegExp") 
+    rexp.ignoreCase = THIS.IGNORECASE
+    rexp.global = THIS.MATCHGLOBAL
+    rexp.pattern = pattern
+    RESULT = rexp
+  FEND
+
+  PUBLIC IGNORECASE = FALSE
+  PUBLIC MATCHGLOBAL = TRUE
+
+  FUNCTION EXECUTE(target, pattern)
+    DIM rexp = GETOBJECT(pattern)
+    RESULT = rexp.execute(target)
+  FEND
+
+  PROCEDURE EXECUTEFOR(target, pattern, callback)
+    DIM rexp = GETOBJECT(pattern)
+    DIM matches = rexp.execute(target)
+    FOR i = 0 TO matches.count - 1
+      r = EVAL(callback + "(matches.item[i])")
+      IF r = FALSE THEN BREAK 
+    NEXT
+  FEND
+
+  FUNCTION REPLACE(target, replacestr, pattern)
+    DIM rexp = GETOBJECT(pattern)
+    RESULT = rexp.replace(target, replacestr)
+  FEND
+
+  FUNCTION TEST(target, pattern)
+    DIM rexp = GETOBJECT(pattern)
+    RESULT = rexp.test(target)
+  FEND
+  
+ENDMODULE
