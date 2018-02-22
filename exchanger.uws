@@ -6,7 +6,10 @@ IF Excel.GETEXCEL() = NULL THEN
   MSGBOX("Excelを起動してください")
   EXIT
 ENDIF
-ws = Excel.CHOICESHEET(Excel.CHOICEFILE())
+DIM wb = Excel.CHOICEFILE()
+IF wb = NULL THEN EXIT
+ws = Excel.CHOICESHEET(wb)
+IF ws = NULL THEN EXIT
 PUBLIC prevday
 PUBLIC ym
 PUBLIC err = ""
