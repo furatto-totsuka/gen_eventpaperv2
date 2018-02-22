@@ -27,7 +27,7 @@ FPUT(fileid, "Location", fileline, 6)
 FPUT(fileid, "Description", fileline, 7)
 fileline = 2
 Excel.EACHROWS(ws.cells(1,1).currentRegion, "scanrows", TRUE)
-
+FCLOSE(fileid)
 IF err <> "" THEN
   MSGBOX("エラーを確認してください<#CR>" + err)
 ELSE
