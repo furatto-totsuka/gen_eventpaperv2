@@ -52,7 +52,7 @@ FUNCTION scanrows(row, no)
   DIM et
   // 値の設定
   mark = COPY(name, 1, 1)
-  IF POS(MARK_CHARS, mark) > 0 THEN
+  IF POS(mark, MARK_CHARS) > 0 THEN
     name = COPY(name, 2)
   ELSE
     mark = ""
