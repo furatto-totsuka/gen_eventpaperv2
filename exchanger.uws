@@ -78,8 +78,8 @@ FUNCTION scanrows(row, no)
   FPUT(fileid, ft, fileline, 2)
   FPUT(fileid, ym + day, fileline, 3)
   FPUT(fileid, et, fileline, 4)
-  FPUT(fileid, mark + name, fileline, 5)
-  FPUT(fileid, "ふらっとステーション・とつか", fileline, 6)
-  FPUT(fileid, content, fileline, 7)
+  FPUT(fileid, "<#DBL>" + mark + name + "<#DBL>", fileline, 5)
+  FPUT(fileid, "<#DBL>" + "ふらっとステーション・とつか" + "<#DBL>", fileline, 6)
+  FPUT(fileid, "<#DBL>" + content + "<#DBL>", fileline, 7)
   fileline = fileline + 1
 FEND
