@@ -15,6 +15,7 @@ PUBLIC fileline
 DIM h = SPLIT(ws.pageSetup.centerHeader)
 DIM match = RegExp.EXECUTE(STRCONV(h[1], SC_HALFWIDTH), "(\d+)")
 ym = match.item[0].value + "/" + match.item[1].value + "/"
+PRINT match.item[0].value + "年" + match.item[1].value + "月イベント表作成開始"
 // ヘッダ作成
 fileid = FOPEN(GET_CUR_DIR + "\import.csv", F_WRITE1)
 fileline = 1
@@ -25,6 +26,7 @@ FPUT(fileid, "End Time", fileline, 4)
 FPUT(fileid, "Subject", fileline, 5)
 FPUT(fileid, "Location", fileline, 6)
 FPUT(fileid, "Description", fileline, 7)
+
 fileline = 2
 Excel.EACHROWS(ws.cells(1,1).currentRegion, "scanrows", TRUE)
 FCLOSE(fileid)
@@ -51,7 +53,7 @@ FUNCTION scanrows(row, no)
   // 値の設定
   mark = COPY(name, 1, 1)
   IF POS(MARK_CHARS, mark) > 0 THEN
-    name = COPY(name, 2) 
+    name = COPY(name, 2)
   ELSE
     mark = ""
   ENDIF
@@ -61,6 +63,7 @@ FUNCTION scanrows(row, no)
     prevday = day
   ENDIF
   DIM times = SPLIT(STRCONV(time, SC_HALFWIDTH), "~")
+  PRINT day + "日:" + name
   IF RESIZE(times) >= 1 THEN
     ft = times[0]
     et = times[1]
@@ -68,6 +71,7 @@ FUNCTION scanrows(row, no)
     ft = STRCONV(time, SC_HALFWIDTH)
     et = ""
     err = err + day + "日の" + mark + name + "の終了時間が未定<#CR>"
+    PRINT "エラー発見。確認してください"
   ENDIF
   // 書き込み
   FPUT(fileid, ym + day, fileline, 1)
